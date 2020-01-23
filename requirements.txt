@@ -1,0 +1,11 @@
+streamlit
+matplotlib
+py2neo
+pyahocorasick
+jieba
+gensim
+scipy
+sklearn
+pyltp
+bokeh
+pyhanlp

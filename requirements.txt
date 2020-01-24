@@ -9,3 +9,5 @@ sklearn
 pyltp
 bokeh
 pyhanlp
+bokeh
+distance

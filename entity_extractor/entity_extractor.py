@@ -5,31 +5,40 @@
   @FileName     : entity_extractor.py
   @Description  : Placeholder
 """
+import os
+import platform
 import sys
-sys.path.append('/home/ljh/Projects/ee_rule_ie/')
 
 import streamlit as st
 
-from core.extractor_military_dsti_no_subevents import *
-from core.extractor_military_dsti import extractor as extractor_more
+target_file_path_dict = {
+    'Windows': 'D:\Github\DataExtraction\ee_rule_ie',
+    'Linux': '/home/ljh/Projects/ee_rule_ie/'
+}
 
-news_files_path = '/home/ljh/Projects/InformationExtraction/data/DstiInformationNewList'
-extra_files_path = '/home/ljh/Projects/ee_rule_ie/data_path/data/'
+target_file_path = target_file_path_dict[platform.system()]
+sys.path.append(target_file_path)
+extra_files_path = os.path.join(target_file_path, 'data_path/data/')
+news_files_path = "D:\Github\Data\ee_rule_ie\DstiInformationNewList"
+
+from core.extractor_military_dsti import extractor as extractor_more
+from core.extractor_military_dsti_no_subevents import *
 
 id2label = json.load(codecs.open(os.path.join(extra_files_path, 'id2weapon_label.json'), 'r', 'utf-8'))
-entity_unique_ending = json.load(codecs.open(os.path.join(extra_files_path, 'entity_special_ending.json'), 'r', 'utf-8'))
+entity_unique_ending = json.load(
+    codecs.open(os.path.join(extra_files_path, 'entity_special_ending.json'), 'r', 'utf-8'))
 
 
 def entity_extractor(select_func, title_holder):
     title_holder.markdown(f"# {select_func.upper()}")
     file_index = st.sidebar.number_input("Index of file", min_value=1, max_value=5792, step=1)
-    temp_file = json.load(codecs.open(os.path.join(news_files_path, f'{file_index}.json')))
+    temp_file = json.load(codecs.open(os.path.join(news_files_path, f'{file_index}.json'), 'r', 'utf-8'))
 
     content_index = st.sidebar.number_input("Index of content", min_value=1, max_value=20, step=1)
 
     more_or_less = st.sidebar.checkbox('Show more entities if no weapon found')
     extractor_dict = {False: extractor, True: extractor_more}
-    result = extractor_dict[more_or_less](temp_file[int(content_index)-1], id2label, entity_unique_ending)
+    result = extractor_dict[more_or_less](temp_file[int(content_index) - 1], id2label, entity_unique_ending)
 
     no_weapon_info = st.empty()
 

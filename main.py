@@ -17,17 +17,12 @@ title_holder = st.empty()
 def main():
     st.sidebar.header('Choice Feature to Use')
 
-    function_list = ['Texts Summarization',
-                     'Entity Extraction (Military News)',
-                     'Entity Extraction (Military Biography)',
-                     'Medical Chatbot']
+    func_dict = {'Texts Summarization': text_summary,
+                 'Entity Extraction (Military News)': entity_extractor,
+                 'Entity Extraction (Military Biography)': None,
+                 'Medical Chatbot': None}
 
-    func_dict = {function_list[0]: text_summary,
-                 function_list[1]: entity_extractor,
-                 function_list[2]: None,
-                 function_list[3]: None}
-
-    select_func = st.sidebar.selectbox('', ('-', *function_list))
+    select_func = st.sidebar.selectbox('', ('-', *func_dict.keys()))
 
     if select_func == '-':
         st.sidebar.success('Choose a feature to implement')

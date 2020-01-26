@@ -9,7 +9,6 @@ from summarize.summarize import text_summary
 from entity_extractor.entity_extractor import entity_extractor
 
 # TODO memory killer, don't import on local
-# from ltp.extractor import Extractor
 
 title_holder = st.empty()
 
